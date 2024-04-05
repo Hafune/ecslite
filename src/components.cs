@@ -16,6 +16,7 @@ namespace Leopotam.EcsLite {
         bool Has (int entity);
         void Del (int entity);
         void AddRaw (int entity, object dataRaw);
+        void AddDefault (int entity);
         object GetRaw (int entity);
         void SetRaw (int entity, object dataRaw);
         int GetId ();
@@ -155,6 +156,13 @@ namespace Leopotam.EcsLite {
 #endif
             ref var data = ref Add (entity);
             data = (T) dataRaw;
+        }
+
+        void IEcsPool.AddDefault (int entity) {
+#if DEBUG && !LEOECSLITE_NO_SANITIZE_CHECKS
+            if (dataRaw == null || dataRaw.GetType () != _type) { throw new Exception ($"Invalid component data, valid \"{typeof (T).Name}\" instance required."); }
+#endif
+            Add (entity);
         }
 
         public T[] GetRawDenseItems () {
