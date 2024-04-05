@@ -159,9 +159,6 @@ namespace Leopotam.EcsLite {
         }
 
         void IEcsPool.AddDefault (int entity) {
-#if DEBUG && !LEOECSLITE_NO_SANITIZE_CHECKS
-            if (dataRaw == null || dataRaw.GetType () != _type) { throw new Exception ($"Invalid component data, valid \"{typeof (T).Name}\" instance required."); }
-#endif
             Add (entity);
         }
 
